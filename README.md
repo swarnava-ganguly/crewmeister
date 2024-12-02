@@ -8,9 +8,16 @@ mkdir -p .github/workflows/build-push.yml
 brew install maven
 mvn wrapper:wrapper
 
-## Pipeline was created after a push
+# Pipeline was created after a push
 
 # You can see the pipeline [HERE](https://github.com/festuge/crewmeister-demo/actions/runs/12090707008/job/33718081003)
+
+
+
+
+
+
+
 
 ## crewmeister-helm: This directory Contains terraform files and a helm chart for the crewmeister-app
 # After files were creates, I created a minikube cluster
