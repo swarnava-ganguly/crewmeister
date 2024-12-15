@@ -35,7 +35,7 @@ jobs:
             tags: sowr94/spring-boot-application:latest
       # Step 6: Set up kubectl
       - name: Set up Kubernetes
-        uses: azure/k8s-actions@v1
+        uses: azure/k8s-actions@latest
         with:
           kubeconfig: ${{ secrets.KUBE_CONFIG }}  # Store your kubeconfig in GitHub Secrets
 
