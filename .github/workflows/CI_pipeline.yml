@@ -56,7 +56,7 @@ jobs:
         run: terraform init
    
       - name: Terraform Apply
-        run: terraform apply -auto-approve -var "helm_chart_path=./helm-chart/deployment.yaml"
+        run: terraform apply -auto-approve -var "helm_chart_path= /helm-chart/deployment.yaml"
 
         
 
