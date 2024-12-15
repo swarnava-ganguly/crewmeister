@@ -19,7 +19,7 @@ jobs:
             distribution: 'temurin'
             cache: 'maven'
       - name: Build project with Maven
-      #mvnw has the required version so that it same who ever uses it
+      #which ensures the correct Maven version is used, no matter who runs the pipeline.
         run: ./mvnw clean package -DskipTests 
 
       - name: Login to Docker Hub
