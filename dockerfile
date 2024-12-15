@@ -1,5 +1,5 @@
 FROM openjdk:17
-WORKDIR /app
-COPY /app/abc.jar  /app
+WORKDIR /application
+COPY /crewmeisterchallenge-0.0.1-SNAPSHOT.jar.original  /application
 EXPOSE 8080
-CMD []
+CMD ["java" , "-jar", "crewmeisterchallenge-0.0.1-SNAPSHOT.jar.original"]
