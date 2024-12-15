@@ -44,19 +44,19 @@ jobs:
       - name: Set up Kubernetes context
         run: |
            kubectl config use-context minikube
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v1
    
       - name: Install Helm
         run: |
           curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-
+      
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
    
       - name: Terraform Initialisation 
         run: terraform init
    
       - name: Terraform Apply
-        run: terraform apply -auto-approve -var "helm_chart_path=.helm-chart/deployment.yaml"
+        run: terraform apply -auto-approve -var "helm_chart_path=./helm-chart/deployment.yaml"
 
         
 
