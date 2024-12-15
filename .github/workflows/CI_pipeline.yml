@@ -19,6 +19,7 @@ jobs:
             distribution: 'temurin'
             cache: 'maven'
       - name: Build project with Maven
+      #mvnw has the required version so that it same who ever uses it
         run: ./mvnw clean package -DskipTests 
 
       - name: Login to Docker Hub
@@ -33,6 +34,14 @@ jobs:
             context: .
             push: true
             tags: sowr94/spring-boot-application:latest
+       #Set up K8s cluster via CI
+      - name: Setup Minikube
+        uses: manusa/actions-setup-minikube@v2.13.0
+        with:
+         minikube version: 'v1.34.0'
+         kubernetes version: 'v1.31.1'
+         driver: 'docker'
+
 
         
 
