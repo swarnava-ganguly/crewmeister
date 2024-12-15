@@ -41,7 +41,9 @@ jobs:
          minikube version: 'v1.34.0'
          kubernetes version: 'v1.31.1'
          driver: 'docker'
-
+      - name: Set up Kubernetes context
+        run: |
+           kubectl config use-context minikube
 
         
 
