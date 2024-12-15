@@ -33,6 +33,24 @@ jobs:
             context: .
             push: true
             tags: sowr94/spring-boot-application:latest
+      # Step 6: Set up kubectl
+      - name: Set up Kubernetes
+        uses: azure/k8s-actions@v1
+        with:
+          kubeconfig: ${{ secrets.KUBE_CONFIG }}  # Store your kubeconfig in GitHub Secrets
+
+      # Step 7: Install Helm
+      - name: Install Helm
+        run: |
+         curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+      # Step 8: Deploy the Helm chart
+      - name: Deploy with Helm
+        run: |
+          helm upgrade --install my-app-release ./my-helm-chart \
+          --set image.repository=sowr94/spring-boot-application
+          --set image.tag=latest \
+          --namespace app-springboot
         
 
             
