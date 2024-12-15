@@ -19,6 +19,6 @@ jobs:
             distribution: 'temurin'
             cache: 'maven'
       - name: Build project with Maven
-        run: mvn -B package --file pom.xml #mvn clean install -X
+        run: ./mvnw clean install #mvn clean install -X
 
             
