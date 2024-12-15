@@ -2,7 +2,7 @@ name: CI pipleine creation for Spring Boot application
 
 # This workflow is triggered whenever a new PR is created on the mentioned branch
 on:
-  pull_request:
+  push:
     branches:
       - feature/assignment-a
       - main
