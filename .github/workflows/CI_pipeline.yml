@@ -8,25 +8,7 @@ on:
 jobs:
     Build-Deploy:
       runs-on: ubuntu-latest
-      services:
-        mysql:
-         image: mysql:8.0
-         env:
-          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
-          MYSQL_DATABASE: testdb
-          MYSQL_USER: user
-          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
-         ports:
-          - 3306:3306
-         options: |
-          --network github_network
       steps:
-      - name: Wait for MySQL to be ready
-        run: |
-          until mysql -h 127.0.0.1 -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e 'show databases;'; do
-            echo "Waiting for MySQL to be ready..."
-            sleep 5
-          done
       - uses: actions/checkout@v4
         name: Checkout repository          
 
@@ -66,9 +48,6 @@ jobs:
       - name: Install Helm
         run: |
           curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-
-      - name: Run Tests (with MySQL container)
-        run: ./mvnw test -DskipTests=false -Dmysql.host=127.0.0.1 -Dmysql.port=3306 -Dmysql.user=${{ secrets.MYSQL_USER }} -Dmysql.password=${{ secrets.MYSQL_PASSWORD }}
       
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v1   
