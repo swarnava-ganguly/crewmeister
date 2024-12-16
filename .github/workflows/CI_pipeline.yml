@@ -19,7 +19,7 @@ jobs:
           ports:
             - 3306:3306
           options: |
-            --bind-address=0.0.0.0
+            --skip-networking=false --bind-address=0.0.0.0
       steps:
       - uses: actions/checkout@v4
         name: Checkout repository          
