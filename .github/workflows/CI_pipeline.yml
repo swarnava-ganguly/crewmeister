@@ -10,16 +10,23 @@ jobs:
       runs-on: ubuntu-latest
       services:
         mysql:
-          image: mysql:8.0
-          env:
-            MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
-            MYSQL_DATABASE: testdb
-            MYSQL_USER: user
-            MYSQL_PASSWORD: ${{ secrets.MYSQL_DATABASE }}
-          ports:
-            - 3306:3306
-          options: |
-            --skip-networking=false --bind-address=0.0.0.0
+         image: mysql:8.0
+         env:
+          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+          MYSQL_DATABASE: testdb
+          MYSQL_USER: user
+          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+         ports:
+          - 3306:3306
+         options: |
+          --network github_network
+    steps:
+      - name: Wait for MySQL to be ready
+        run: |
+          until mysql -h 127.0.0.1 -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e 'show databases;'; do
+            echo "Waiting for MySQL to be ready..."
+            sleep 5
+          done
       steps:
       - uses: actions/checkout@v4
         name: Checkout repository          
