@@ -20,14 +20,13 @@ jobs:
           - 3306:3306
          options: |
           --network github_network
-    steps:
+      steps:
       - name: Wait for MySQL to be ready
         run: |
           until mysql -h 127.0.0.1 -u root -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e 'show databases;'; do
             echo "Waiting for MySQL to be ready..."
             sleep 5
           done
-      steps:
       - uses: actions/checkout@v4
         name: Checkout repository          
 
