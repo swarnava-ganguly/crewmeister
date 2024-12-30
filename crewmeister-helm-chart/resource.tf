@@ -6,4 +6,8 @@ resource "helm_release" "crewmeister_application" {
   values = [
      file("/home/runner/work/devops-coding-challenge/devops-coding-challenge/crewmeister-helm-chart/crewmeister-values.yaml")
   ]
+  set {
+    name  = "service.port"
+    value = "8080"
+  }
 }
