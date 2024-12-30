@@ -4,11 +4,6 @@ resource "helm_release" "crewmeister_application" {
   chart     = "/home/runner/work/devops-coding-challenge/devops-coding-challenge/crewmeister-helm-chart"
   version   = "0.2.3"
   values = [
-    {
-      service = {
-        type = "ClusterIP"
-        port = 8080
-      }
-    }
+     file("/home/runner/work/devops-coding-challenge/devops-coding-challenge/crewmeister-helm-chart/crewmeister-values.yaml")
   ]
 }
