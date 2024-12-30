@@ -14,5 +14,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args:  ['-qO-', '{{ .Release.Name }}:{{ .Values.service.port | default 8080 }}/metrics']  # Use .Release.Name for the release name
+      args: ['-qO-', '{{ .Release.Name }}:{{ .Values.service.port | default 8080 }}/metrics']  # Use .Release.Name for the release name
   restartPolicy: Never
