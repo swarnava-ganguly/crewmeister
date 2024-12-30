@@ -94,7 +94,7 @@ jobs:
        
       - name: Terraform Init and Apply
         run: |
-          cd crewmeister-helm-chart
+          cd helm
           terraform init
           terraform plan
           terraform apply -auto-approve
