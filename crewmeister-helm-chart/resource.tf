@@ -3,4 +3,5 @@ resource "helm_release" "crewmeister_application" {
   namespace = "default"
   chart     = "./crewmeister-helm-chart"  # Make sure the relative path is correct
   version   = "0.2.3"
+  values    = [ "./crewmeister-helm-chart/crewmeister-values.yaml" ]
 }

@@ -84,6 +84,10 @@ jobs:
         uses: hashicorp/setup-terraform@v1
         with:
           terraform_version: 1.0.9
+      - name: Check working directory
+        run: |
+            pwd  # Print current working directory
+            ls -l  # List files and directories
 
       - name: Verify Terraform Installation
         run: terraform --version
