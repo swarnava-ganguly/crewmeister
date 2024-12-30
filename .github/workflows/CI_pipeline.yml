@@ -43,10 +43,10 @@ jobs:
          driver: 'docker'
 
       - name: Start Minikube
-         run: |
+        run: |
            minikube start --driver=docker
            kubectl config use-context minikube
-           
+
       - name: Set up Kubernetes context
         run: |
            kubectl config use-context minikube
