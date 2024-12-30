@@ -1,32 +1,24 @@
 replicaCount: 2
-
 image:
   repository: sowr94/spring-boot-application
   pullPolicy: IfNotPresent
   tag: latest
-
 imagePullSecrets:
   - name: crewmeister-secret
-
 nameOverride: ""
 fullnameOverride: ""
-
 serviceAccount:
   create: true
   automount: true
   annotations: {}
-  name: "crewmeister-service-account"  # Corrected name for service account
-
+  name: "crewmeister-service-account"  
 podAnnotations: {}
 podLabels: {}
-
 podSecurityContext: {}
 securityContext: {}
-
 service:
-  port: 8080  # Ensure the port is correctly defined here
+  port: 8080  
   type: ClusterIP
-
 ingress:
   enabled: false
   className: ""
@@ -37,7 +29,6 @@ ingress:
         - path: /
           pathType: ImplementationSpecific
   tls: []
-
 resources:
   limits:
     cpu: "1"
@@ -45,20 +36,14 @@ resources:
   requests:
     cpu: "500m"
     memory: "256Mi"
-
 autoscaling:
   enabled: false
   minReplicas: 1
   maxReplicas: 100
   targetCPUUtilizationPercentage: 80
-
-serviceAccountName: "crewmeister-service-account"  # This is for manually specifying a service account name
-
+serviceAccountName: "crewmeister-service-account"
 volumes: []
 volumeMounts: []
-
 nodeSelector: {}
-
 tolerations: []
-
 affinity: {}
