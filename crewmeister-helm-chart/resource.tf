@@ -3,11 +3,11 @@ resource "helm_release" "crewmeister_application" {
   namespace = "default"
   chart     = "/home/runner/work/devops-coding-challenge/devops-coding-challenge/crewmeister-helm-chart"
   version   = "0.2.3"
-  values = [
-     file("/home/runner/work/devops-coding-challenge/devops-coding-challenge/crewmeister-helm-chart/crewmeister-values.yaml")
+  values =  [
+    <<EOF
+service:
+  type: ClusterIP
+  port: 8080
+EOF
   ]
-  set {
-    name  = "service.port"
-    value = "8080"
-  }
 }
