@@ -24,8 +24,8 @@ podSecurityContext: {}
 securityContext: {}
 
 service:
+  port: 8080  # Ensure the port is correctly defined here
   type: ClusterIP
-  port: 8080  # Ensure the port is set correctly here
 
 ingress:
   enabled: false
@@ -40,11 +40,11 @@ ingress:
 
 resources:
   limits:
+    cpu: "1"
+    memory: "512Mi"
+  requests:
     cpu: "500m"
     memory: "256Mi"
-  requests:
-    cpu: "250m"
-    memory: "128Mi"
 
 autoscaling:
   enabled: false
