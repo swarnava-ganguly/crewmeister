@@ -6,20 +6,22 @@ on:
     branches:
       - feature/assignment-a
 jobs:
-    Build-Deploy:
+    Build-and-Push:
       runs-on: ubuntu-latest
       steps:
       - uses: actions/checkout@v4
-        name: Checkout repository          
+        name: Checkout the crewmeister repository          
 
-      - name: Set up JDK 17
+      - name: Prerequisite 1 - Set up JDK 17
         uses: actions/setup-java@v4
         with:
             java-version: '17'
             distribution: 'temurin'
             cache: 'maven'
-      - name: Build project with Maven
+
       #which ensures the correct Maven version is used, no matter who runs the pipeline.
+      #the wrapper is designed to handle Maven installation
+      - name: Prerequisite 2 - Build project crewmeister with Maven
         run: ./mvnw clean package -DskipTests 
 
       - name: Login to Docker Hub
@@ -46,7 +48,7 @@ jobs:
         run: |
            minikube start --driver=docker
            kubectl config use-context minikube
-           
+
       - name: Check Minikube status
         run: |
              minikube status
