@@ -14,7 +14,7 @@ provider "helm" {
 resource "helm_release" "crewmeister_app" {
   name      = "crewmeister"
   namespace = "default"
-  chart     = "./crewmeister-helm-chart"
+  chart     = "/home/runner/work/devops-coding-challenge/devops-coding-challenge/crewmeister-helm-chart"
 }
 
 
