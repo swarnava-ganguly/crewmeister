@@ -45,6 +45,9 @@ jobs:
         run: |
           sudo /etc/init.d/mysql start
           mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ secrets.DB_USER }} -p${{ secrets.DB_PASSWORD }}
+      - name: Verify MySQL Database
+        run: |
+          mysql -h localhost  -u${{ secrets.DB_USER }} -p${{ secrets.DB_PASSWORD }} -e "SHOW DATABASES;"
 
 
 
