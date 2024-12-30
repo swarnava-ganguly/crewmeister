@@ -3,11 +3,6 @@ name: crewmeister-app
 description: A Spring Boot application Helm chart for Crewmeister
 version: 0.1.0
 appVersion: "1.0"
-
-# Metadata for the chart
-# Values are typically placed in a separate `values.yaml`, but here we define them inline within the templates.
-
-# Template for the Helm resources
 templates:
   - apiVersion: apps/v1
     kind: Deployment
