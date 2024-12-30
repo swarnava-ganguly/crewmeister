@@ -44,7 +44,9 @@ jobs:
          minikube version: 'v1.34.0'
          kubernetes version: 'v1.31.1'
          driver: 'docker'
-
+      - name: Output kubeconfig
+        run: |
+               cat $(minikube kubeconfig) > kubeconfig.yaml
       - name: Start Minikube
         run: |
            minikube start --driver=docker
@@ -54,9 +56,7 @@ jobs:
         run: |
              minikube status
              kubectl get nodes
-      - name: Output kubeconfig
-        run: |
-              minikube kubeconfig > kubeconfig.yaml
+
 
       - name: Set up Kubernetes context
         run: |
