@@ -8,6 +8,9 @@ resource "helm_release" "crewmeister_application" {
 service:
   type: ClusterIP
   port: 8080
+
+serviceAccount:
+  create: true
 EOF
   ]
 }
