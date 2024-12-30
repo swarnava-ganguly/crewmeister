@@ -1,4 +1,4 @@
-apiVersion: v1
+apiVersion: v2
 description: Spring boot application chart
 name: crewmeister
 version: 0.2.3
