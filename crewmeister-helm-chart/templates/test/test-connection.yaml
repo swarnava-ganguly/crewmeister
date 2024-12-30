@@ -1,18 +1,18 @@
 apiVersion: v1
 kind: Pod
 metadata:
-name: "{{ .Release.Name }}-test-connection"
+  name: "{{ .Release.Name }}-test-connection"
   labels:
-    app.kubernetes.io/name: {{ include "crewmeister.name" . }}
+    app.kubernetes.io/name: {{ .Chart.Name }}    # Use .Chart.Name for the chart name
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
-    helm.sh/chart: {{ include "crewmeister.chart" . }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version }}  # Use .Chart.Name and .Chart.Version for the chart version
   annotations:
     "helm.sh/hook": test-success
 spec:
   containers:
-  - name: wget
-    image: busybox
-    command: ['wget']
-    args:  ['-qO-', '{{ include "crewmeister.fullname" . }}:{{ .Values.service.port }}/metrics']
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args:  ['-qO-', '{{ .Release.Name }}:{{ .Values.service.port }}/metrics']  # Use .Release.Name for the release name
   restartPolicy: Never
