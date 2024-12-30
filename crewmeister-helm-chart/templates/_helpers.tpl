@@ -1,5 +1,5 @@
 {{- define "crewmeister.name" -}}
-{{ .Chart.Name }}
+{{ .Chart.Name }}-{{ .Chart.Version }}
 {{- end }}
 
 {{- define "crewmeister.fullname" -}}
