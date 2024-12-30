@@ -4,5 +4,5 @@ provider "kubernetes" {
 }
 
 output "helm_release_name" {
-  value = helm_release.helm.name
+  value = helm_release.crewmeister_app.name
 }
