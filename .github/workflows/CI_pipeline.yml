@@ -36,6 +36,7 @@ jobs:
             context: .
             push: true
             tags: sowr94/spring-boot-application:latest
+
        #Set up K8s cluster via CI
       - name: Setup Minikube
         uses: manusa/actions-setup-minikube@v2.13.0
@@ -53,7 +54,9 @@ jobs:
         run: |
              minikube status
              kubectl get nodes
-         
+      - name: Output kubeconfig
+        run: |
+              minikube kubeconfig > kubeconfig.yaml
 
       - name: Set up Kubernetes context
         run: |
