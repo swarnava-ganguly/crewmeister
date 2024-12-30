@@ -1,3 +1,7 @@
+{{- define "crewmeister.name" -}}
+{{ .Chart.Name }}-{{ .Chart.Version }}
+{{- end }}
+
 {{- define "crewmeister.chart" -}}
 {{ .Chart.Name }}-{{ .Chart.Version }}
 {{- end -}}
