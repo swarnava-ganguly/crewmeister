@@ -1,6 +1,6 @@
-{{- define "crewmeister.name" -}}
+{{- define "crewmeister.chart" -}}
 {{ .Chart.Name }}-{{ .Chart.Version }}
-{{- end }}
+{{- end -}}
 
 {{- define "crewmeister.fullname" -}}
 {{ .Release.Name }}-{{ .Chart.Name }}
@@ -8,4 +8,11 @@
 
 {{- define "crewmeister.serviceAccountName" -}}
 {{- default .Release.Name .Values.serviceAccountName -}}
+{{- end -}}
+
+{{- define "crewmeister.labels" -}}
+app.kubernetes.io/name: {{ include "crewmeister.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+helm.sh/chart: {{ include "crewmeister.chart" . }}
 {{- end -}}
