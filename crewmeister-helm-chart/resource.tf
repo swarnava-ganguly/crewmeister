@@ -3,4 +3,12 @@ resource "helm_release" "crewmeister_application" {
   namespace = "default"
   chart     = "/home/runner/work/devops-coding-challenge/devops-coding-challenge/crewmeister-helm-chart"
   version   = "0.2.3"
+  values = [
+    {
+      service = {
+        type = "ClusterIP"
+        port = 8080
+      }
+    }
+  ]
 }
