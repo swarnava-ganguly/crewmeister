@@ -22,8 +22,8 @@ jobs:
             distribution: 'temurin'
             cache: 'maven'
 
-      #which ensures the correct Maven version is used, no matter who runs the pipeline.
-      #the wrapper is designed to handle Maven installation
+#which ensures the correct Maven version is used, no matter who runs the pipeline.
+#the wrapper is designed to handle Maven installation
       - name: Prerequisite 2 - Build project crewmeister with Maven
         run: ./mvnw clean package -DskipTests 
 
@@ -49,14 +49,7 @@ jobs:
         run: |
           mysql -h localhost  -u${{ secrets.DB_USER }} -p${{ secrets.DB_PASSWORD }} -e "SHOW DATABASES;"
 
-
-
-
-
-
-
-
-       #Set up K8s cluster via CI
+#Set up K8s cluster using Minikube
       - name: Setup Minikube
         uses: manusa/actions-setup-minikube@v2.13.0
         with:
@@ -73,7 +66,6 @@ jobs:
         run: |
              minikube status
              kubectl get nodes
-
 
       - name: Set up Kubernetes context
         run: |

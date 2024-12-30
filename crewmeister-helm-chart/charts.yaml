@@ -3,3 +3,4 @@ description: Spring boot application chart
 name: spring-app
 version: 0.2.3
 type: application
+appVersion: "1.16.0"
