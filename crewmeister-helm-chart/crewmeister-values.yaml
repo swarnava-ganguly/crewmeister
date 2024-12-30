@@ -1,13 +1,13 @@
 replicaCount: 2
 
 image:
-  repository: docker pull sowr94/spring-boot-application
-#263226313288.dkr.ecr.eu-central-1.amazonaws.com/crewmeister
+  repository: sowr94/spring-boot-application
   pullPolicy: IfNotPresent
   tag: latest
 
 imagePullSecrets:
   - name: crewmeister-secret
+
 nameOverride: ""
 fullnameOverride: ""
 
@@ -15,7 +15,7 @@ serviceAccount:
   create: true
   automount: true
   annotations: {}
-  name: ""
+  name: "crewmeister-service-account"  # Corrected name for service account
 
 podAnnotations: {}
 podLabels: {}
@@ -25,7 +25,7 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 8080
+  port: 8080  # Ensure the port is set correctly here
 
 ingress:
   enabled: false
@@ -52,7 +52,7 @@ autoscaling:
   maxReplicas: 100
   targetCPUUtilizationPercentage: 80
 
-serviceAccountName: "crewmeister-service-account"
+serviceAccountName: "crewmeister-service-account"  # This is for manually specifying a service account name
 
 volumes: []
 volumeMounts: []
@@ -62,5 +62,3 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
-
-
