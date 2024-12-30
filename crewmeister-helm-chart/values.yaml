@@ -5,30 +5,24 @@ image:
   tag: latest
 imagePullSecrets:
   - name: crewmeister-secret
-nameOverride: ""
-fullnameOverride: ""
+
 serviceAccount:
   create: true
   automount: true
-  annotations: {}
-  name: "crewmeister-service-account"  
-podAnnotations: {}
-podLabels: {}
-podSecurityContext: {}
-securityContext: {}
+  name: "crewmeister-service-account"
+
 service:
-  port: 8080  
+  port: 8080
   type: ClusterIP
+
 ingress:
   enabled: false
-  className: ""
-  annotations: {}
   hosts:
     - host: crewmeister-app.local
       paths:
         - path: /
           pathType: ImplementationSpecific
-  tls: []
+
 resources:
   limits:
     cpu: "1"
@@ -36,14 +30,9 @@ resources:
   requests:
     cpu: "500m"
     memory: "256Mi"
+
 autoscaling:
   enabled: false
   minReplicas: 1
   maxReplicas: 100
   targetCPUUtilizationPercentage: 80
-serviceAccountName: "crewmeister-service-account"
-volumes: []
-volumeMounts: []
-nodeSelector: {}
-tolerations: []
-affinity: {}
