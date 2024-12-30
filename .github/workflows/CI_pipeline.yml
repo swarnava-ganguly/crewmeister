@@ -87,17 +87,13 @@ jobs:
 
       - name: Verify Terraform Installation
         run: terraform --version
-
-      - name: Terraform Init
-        run: terraform init
-
-      - name: Terraform Plan
-        run: terraform plan
-
-      - name: Terraform Apply
-        run: terraform apply -auto-approve
-
-
+       
+      - name: Terraform Init and Apply
+        run: |
+          cd crewmeister-helm-chart
+          terraform init
+          terraform plan
+          terraform apply -auto-approve
         
 
             
