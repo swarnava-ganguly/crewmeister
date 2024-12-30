@@ -1,7 +1,6 @@
 resource "helm_release" "crewmeister_application" {
   name      = "crewmeister"
   namespace = "default"
-  chart     = "./crewmeister-helm-chart"  # Make sure the relative path is correct
+  chart     = "/home/runner/work/devops-coding-challenge/devops-coding-challenge/crewmeister-helm-chart"
   version   = "0.2.3"
-  values    = [ "./crewmeister-helm-chart/crewmeister-values.yaml" ]
 }
