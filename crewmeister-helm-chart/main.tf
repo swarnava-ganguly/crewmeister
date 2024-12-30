@@ -5,11 +5,11 @@ provider "helm" {
   }
 }
 
-resource "kubernetes_namespace" "crewmeister" {
-  metadata {
-    name = "default"
-  }
-}
+# resource "kubernetes_namespace" "crewmeister" {
+#   metadata {
+#     name = "default"
+#   }
+# }
 
 resource "helm_release" "crewmeister_app" {
   name      = "crewmeister"
