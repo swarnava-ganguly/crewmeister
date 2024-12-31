@@ -1,5 +1,5 @@
 provider "kubernetes" {
-  config_path = "~/.kube/config"
+  config_path = "/home/runner/.kube/config"
   config_context = "minikube"
 }
 
