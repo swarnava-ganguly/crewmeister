@@ -3,5 +3,5 @@ kind: ConfigMap
 metadata:
   name: db-config
 data:
-  host: jdbc:mysql://mysql-service.default.svc.cluster.local:3306/challenge?useSSL=false&createDatabaseIfNotExist=true
+  host: jdbc:mysql://mysql.default.svc.cluster.local:3306/challenge?useSSL=false&createDatabaseIfNotExist=true
   dbName: challenge
