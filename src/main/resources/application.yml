@@ -4,12 +4,12 @@ spring:
   datasource:
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
-    url: jdbc:mysql://${DB_HOST}/${DB_NAME}?useSSL=false&createDatabaseIfNotExist=true
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/challenge?useSSL=false&createDatabaseIfNotExist=true}
     driver-class-name: com.mysql.cj.jdbc.Driver
   flyway:
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
-    url: jdbc:mysql://${DB_HOST}/${DB_NAME}?useSSL=false&createDatabaseIfNotExist=true
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/challenge?useSSL=false&createDatabaseIfNotExist=true}
     enabled: true
 
 management:

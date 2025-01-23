@@ -3,5 +3,5 @@ kind: ConfigMap
 metadata:
   name: db-config
 data:
-  host: mysql
+  host: jdbc:mysql://mysql/challenge?useSSL=false&createDatabaseIfNotExist=true
   dbName: challenge
