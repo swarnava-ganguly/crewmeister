@@ -69,9 +69,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql-service # DNS name
+  name: mysql # DNS name
   labels:
-    app: mysql-service
+    app: mysql
     tier: database
 spec:
   ports:
