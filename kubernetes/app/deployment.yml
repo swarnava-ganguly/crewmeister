@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: java-app1
-        image: java-app1:latest
+        image: swarnava28/spring-boot-application:latest
         ports:
         - containerPort: 8080
         env:
