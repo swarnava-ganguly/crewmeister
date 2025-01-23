@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: java-app1-deployment
+  name: java-app-deployment
 spec:
   selector:
     matchLabels:
-      app: java-app1
+      app: java-app
   replicas: 1
   template:
     metadata:
       labels:
-        app: java-app1
+        app: java-app
     spec:
       containers:
-      - name: java-app1
-        image: swarnava28/spring-boot-application:latest
+      - name: java-app
+        image: swarnava28/java-app:latest
         ports:
         - containerPort: 8080
         env:
@@ -50,7 +50,7 @@ metadata:
   name: springboot-crud-svc
 spec:
   selector:
-    app: java-app1
+    app: java-app
   ports:
   - protocol: "TCP"
     port: 8080 # The port that the service is running on in the cluster

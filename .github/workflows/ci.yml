@@ -21,7 +21,7 @@ jobs:
             java-version: '17'
             distribution: 'temurin'
             cache: 'maven'
-            
+
       - name: Prerequisite 2 - Build project crewmeister with Maven
         run: ./mvnw clean package -DskipTests 
 
@@ -36,4 +36,4 @@ jobs:
         with:
             context: .
             push: true
-            tags: swarnava28/spring-boot-application:latest
+            tags: swarnava28/java-app:${{ github.head_ref }}.${{ github.sha }}
