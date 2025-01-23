@@ -36,4 +36,4 @@ jobs:
         with:
             context: .
             push: true
-            tags: swarnava28/java-app:${{ github.head_ref }}
+            tags: swarnava28/java-app:latest
