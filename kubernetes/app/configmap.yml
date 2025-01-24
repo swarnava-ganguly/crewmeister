@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: application
+data:
+  host: jdbc:mysql://mysql.database.svc.cluster.local:3306/challenge?useSSL=false&createDatabaseIfNotExist=true
+  dbName: challenge
+  username: appuser
