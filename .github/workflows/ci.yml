@@ -20,21 +20,21 @@ jobs:
             distribution: 'temurin'
             cache: 'maven'
 
-      - name: Prerequisite 2 - Build project crewmeister with Maven
-        run: ./mvnw clean package -DskipTests 
+      # - name: Prerequisite 2 - Build project crewmeister with Maven
+      #   run: ./mvnw clean package -DskipTests 
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: swarnava28
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      # - name: Login to Docker Hub
+      #   uses: docker/login-action@v3
+      #   with:
+      #     username: swarnava28
+      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
       
-      - name: Build and push
-        uses: docker/build-push-action@v6
-        with:
-            context: .
-            push: true
-            tags: swarnava28/java-app:latest
+      # - name: Build and push
+      #   uses: docker/build-push-action@v6
+      #   with:
+      #       context: .
+      #       push: true
+      #       tags: swarnava28/java-app:latest
     Deploy:
       needs: Build-and-Push
       name: Deploy to Kubernetes
@@ -60,6 +60,12 @@ jobs:
           kubectl get secret -n application
           echo ${{ secrets.DATABASE_SECRETS_BASE64 }} | base64 --decode | kubectl apply -f -
           kubectl get secret -n database
+      - name: Install
+        run: |
+          ls
+          kubectl apply -f crewmeister/kubernetes/mysql --dry-run=client
+          kubectl apply -f crewmeister/kubernetes/app --dry-run=client
+
           
       - name: Use context
         run: kubectl get nodes

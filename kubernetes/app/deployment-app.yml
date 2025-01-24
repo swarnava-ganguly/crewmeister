@@ -1,7 +1,27 @@
+# apiVersion: v1
+# data:
+#   .dockerconfigjson: eyJhdXRocyI6eyJodHRwczovL2luZGV4LmRvY2tlci5pby92MS8iOnsidXNlcm5hbWUiOiJzd2FybmF2YTI4IiwicGFzc3dvcmQiOiJpbG92ZWRvY2tlciIsImVtYWlsIjoic3dhcm5hdmEyOEBnbWFpbC5jb20iLCJhdXRoIjoiYzNkaGNtNWhkbUV5T0RwcGJHOTJaV1J2WTJ0bGNnPT0ifX19
+# kind: Secret
+# metadata:
+#   name: myregistrykey
+#   namespace: application
+# type: kubernetes.io/dockerconfigjson
+# ---
+# apiVersion: v1
+# kind: Secret
+# metadata:
+#   name: app-secrets
+#   namespace: application
+# data:
+#   username: cm9vdA==
+#   password: cm9vdA==
+#   userpassword: cm9vdA==
+# ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: java-app-deployment
+  namespace: application
 spec:
   selector:
     matchLabels:
@@ -21,14 +41,21 @@ spec:
         runAsNonRoot: true
         runAsUser: 1001
         fsGroup: 1001
-        # readOnlyRootFilesystem: true
-        # allowPrivilegeEscalation: false
+      serviceAccountName: application-ns-sa
       containers:
       - name: java-app
         image: swarnava28/java-app:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 200m
+        securityContext:
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
         livenessProbe:
           httpGet:
             path: /actuator/health
@@ -47,38 +74,23 @@ spec:
         - name: SPRING_DATASOURCE_URL
           valueFrom:
             configMapKeyRef:
-              name: db-config
+              name: app-config
               key: host
 
         - name: DB_NAME
           valueFrom:
             configMapKeyRef:
-              name: db-config
+              name: app-config
               key: dbName
 
         - name: DB_USERNAME
           valueFrom:
             secretKeyRef:
-              name: mysql-secrets
+              name: app-secrets
               key: username
 
         - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: mysql-secrets
+              name: app-secrets
               key: password
----
-
-apiVersion: v1 # Kubernetes API version
-kind: Service # Kubernetes resource kind we are creating
-metadata:
-  # Metadata of the resource kind we are creating
-  name: springboot-crud-svc
-spec:
-  selector:
-    app: java-app
-  ports:
-  - protocol: "TCP"
-    port: 8080 # The port that the service is running on in the cluster
-    targetPort: 8080 # The port exposed by the service
-  type: NodePort # type of the service.
