@@ -36,6 +36,7 @@ jobs:
             push: true
             tags: swarnava28/java-app:latest
     Deploy:
+      needs: Build-and-Push
       name: Deploy to Kubernetes
       runs-on: ubuntu-latest
       steps:
