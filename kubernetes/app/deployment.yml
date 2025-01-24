@@ -6,17 +6,47 @@ spec:
   selector:
     matchLabels:
       app: java-app
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
   replicas: 1
   template:
     metadata:
       labels:
         app: java-app
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001
+        fsGroup: 1001
       containers:
       - name: java-app
-        image: swarnava28/java-app:latest
+        # image: swarnava28/spring-boot-application:latest
+        image: sample-java:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
+        # securityContext:
+        #   runAsNonRoot: false
+        #   runAsUser: 1000
+        #   readOnlyRootFilesystem: false
+        #   allowPrivilegeEscalation: true
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 30
+          failureThreshold: 3
+        # readinessProbe:
+        #   httpGet:
+        #     path: /actuator/health
+        #     port: 8080
+        #   initialDelaySeconds: 15
+        #   periodSeconds: 30
+        #   failureThreshold: 3
         env:
         - name: SPRING_DATASOURCE_URL
           valueFrom:
