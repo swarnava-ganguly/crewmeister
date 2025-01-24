@@ -6,7 +6,7 @@
 #   name: myregistrykey
 #   namespace: application
 # type: kubernetes.io/dockerconfigjson
-# ---
+# --- 
 # apiVersion: v1
 # kind: Secret
 # metadata:
