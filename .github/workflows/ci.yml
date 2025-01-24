@@ -63,8 +63,8 @@ jobs:
       - name: Install
         run: |
           ls
-          kubectl apply -f crewmeister/kubernetes/mysql --dry-run=client
-          kubectl apply -f crewmeister/kubernetes/app --dry-run=client
+          kubectl apply -f kubernetes/mysql --dry-run=client
+          kubectl apply -f kubernetes/app --dry-run=client
 
           
       - name: Use context
