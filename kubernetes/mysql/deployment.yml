@@ -64,15 +64,19 @@ spec:
               name: mysql-secrets
               key: userpassword
 
-        - name: MYSQL_DATABASE # Setting Database Name from a 'ConfigMap'
+        - name: MYSQL_DATABASE
           valueFrom:
             configMapKeyRef:
               name: db-config
               key: dbName
-
         ports:
         - containerPort: 3306
           name: mysql
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 200m
         readinessProbe:
           exec:
             command:
@@ -102,7 +106,7 @@ spec:
         persistentVolumeClaim:
           claimName: mysql-pv-claim
 ---
-# Define a 'Service' To Expose mysql to Other Services
+
 apiVersion: v1
 kind: Service
 metadata:
