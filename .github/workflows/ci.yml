@@ -21,19 +21,19 @@ jobs:
             java-version: '17'
             distribution: 'temurin'
             cache: 'maven'
-    deploy:
-      name: Deploy to Kubernetes
-      runs-on: ubuntu-latest
-      steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Create kubeconfig
-        run: |
-          mkdir ${HOME}/.kube
-          echo ${{ secrets.KUBE_CONFIG }} | base64 --decode > ${HOME}/.kube/config
-          cat ${HOME}/.kube/config
-      - name: Use context
-        run: kubectl get nodes
+    # deploy:
+    #   name: Deploy to Kubernetes
+    #   runs-on: ubuntu-latest
+    #   steps:
+    #   - name: Checkout code
+    #     uses: actions/checkout@v2
+    #   - name: Create kubeconfig
+    #     run: |
+    #       mkdir ${HOME}/.kube
+    #       echo ${{ secrets.KUBE_CONFIG }} | base64 --decode > ${HOME}/.kube/config
+    #       cat ${HOME}/.kube/config
+    #   - name: Use context
+    #     run: kubectl get nodes
 
       # - name: Prerequisite 2 - Build project crewmeister with Maven
       #   run: ./mvnw clean package -DskipTests 
