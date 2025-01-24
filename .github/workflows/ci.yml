@@ -54,7 +54,7 @@ jobs:
           kubectl get namespace
       - name: Configure Secrets
         run: |
-          kubectl delete secret myregistrykey application --ignore-not-found
+          kubectl delete secret myregistrykey -n application --ignore-not-found
           kubectl create secret docker-registry myregistrykey --docker-username=${{ secrets.DOCKER_USERNAME }} --docker-password=${{ secrets.DOCKERHUB_TOKEN }} --docker-email=${{ secrets.DOCKER_EMAIL }} -n application
           echo ${{ secrets.APPLICATION_SECRETS_BASE64 }} | base64 --decode | kubectl apply -f -
           kubectl get secret -n application
