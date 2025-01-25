@@ -1,4 +1,9 @@
 name: CD pipleine creation for Spring Boot application
+on:
+  push:
+    branches:
+      - main
+
 env:
   DB_DATABASE: crewmeister
 jobs:
