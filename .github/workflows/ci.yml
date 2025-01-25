@@ -5,7 +5,7 @@ on:
       - main
 
 env:
-  DB_DATABASE: crewmeister
+  DB_DATABASE: crewmeiste
 jobs:
     Build-and-Push:
       runs-on: ubuntu-latest
