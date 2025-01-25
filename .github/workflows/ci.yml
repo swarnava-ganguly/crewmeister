@@ -1,4 +1,4 @@
-name: CI pipleine creation for Spring Boot application
+name: CI pipleine
 on:
   push:
     branches:

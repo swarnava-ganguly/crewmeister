@@ -1,8 +1,9 @@
 name: CD pipleine creation for Spring Boot application
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: ["CI pipleine"]
+    types:
+      - completed
 
 env:
   DB_DATABASE: crewmeister
