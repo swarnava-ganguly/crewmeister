@@ -7,15 +7,15 @@
 #   namespace: application
 # type: kubernetes.io/dockerconfigjson
 # --- 
-apiVersion: v1
-kind: Secret
-metadata:
-  name: {{ .Values.name }}-secrets
-  namespace: {{ .Values.namespace }}
-data:
-  username: cm9vdA==
-  password: cm9vdA==
-  userpassword: cm9vdA==
+# apiVersion: v1
+# kind: Secret
+# metadata:
+#   name: {{ .Values.name }}-secrets
+#   namespace: {{ .Values.namespace }}
+# data:
+#   username: cm9vdA==
+#   password: cm9vdA==
+#   userpassword: cm9vdA==
 ---
 apiVersion: apps/v1
 kind: Deployment

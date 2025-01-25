@@ -1,12 +1,14 @@
 provider "kubernetes" {
-  config_path = "C:/Users/user/.kube/config"
-  config_context = "docker-desktop"
+  # config_path = "C:/Users/user/.kube/config"
+  config_path = "/home/runner/.kube/config"
+  config_context = "still-violet-23660725"
 }
 
 provider "helm" {
   kubernetes {
-    config_path = "C:/Users/user/.kube/config"
-    config_context = "docker-desktop"
+    # config_path = "C:/Users/user/.kube/config"
+    config_path = "/home/runner/.kube/config"
+    config_context = "still-violet-23660725"
   }
 }
 
