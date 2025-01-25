@@ -32,6 +32,6 @@ jobs:
         with:
             context: .
             push: true
-            tags: swarnava28/java-app:${GITHUB_SHA::6}
+            tags: swarnava28/java-app:latest
     # Deploy:
     #   uses: ./.github/workflows/cd.yml
