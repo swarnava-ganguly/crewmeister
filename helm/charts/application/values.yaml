@@ -1,0 +1,24 @@
+name: ""
+replicas: ""
+namespace: ""
+image:
+  name: ""
+  tag: ""
+  repository: ""
+  containerPort: ""
+  resources:
+    requests:
+      cpu: ""
+      memory: ""
+    limits:
+      cpu: "1"
+      memory: ""
+  hpaConf:
+    maxReplicas: ""
+    minReplicas: ""
+    targetCPUUtilizationPercentage: ""
+
+config:
+  host: ""
+  dbName: ""
+  username: ""

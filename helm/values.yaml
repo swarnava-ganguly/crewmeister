@@ -1,0 +1,54 @@
+javaApplication:
+  name: "java-app"
+  replicas: "2"
+  namespace: "application"
+  image:
+    name: "java-app"
+    tag: "latest"
+    repository: "swarnava28"
+    containerPort: "8080"
+    resources:
+      requests:
+        cpu: "800m"
+        memory: "100Mi"
+      limits:
+        cpu: "1"
+        memory: "500Mi"
+    hpaConf:
+      maxReplicas: "5"
+      minReplicas: "1"
+      targetCPUUtilizationPercentage: "80"
+
+  config:
+    host: "jdbc:mysql://mysql.database.svc.cluster.local:3306/challenge?useSSL=false&createDatabaseIfNotExist=true"
+    dbName: "challenge"
+    username: "appuser"
+
+mysql:
+  name: "mysql"
+  replicas: "1"
+  namespace: "database"
+  networkPolicy:
+    allowedNamespace: "application"
+  image:
+    name: "mysql"
+    tag: 5.7
+    repository: ""
+    containerPort: "3306"
+    targetPort: "3306"
+    resources:
+      requests:
+        cpu: "200m"
+        memory: "800Mi"
+      limits:
+        cpu: "500m"
+        memory: "1Gi"
+
+  config:
+    dbName: "challenge"
+    username: "appuser"
+  pvc:
+    spec:
+      resources:
+        requests:
+          storage: "500Mi"

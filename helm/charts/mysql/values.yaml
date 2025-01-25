@@ -1,0 +1,27 @@
+name: ""
+replicas: ""
+namespace: ""
+networkPolicy:
+  allowedNamespace: ""
+image:
+  name: ""
+  tag: ""
+  repository: ""
+  containerPort: ""
+  targetPort: ""
+  resources:
+    requests:
+      cpu: ""
+      memory: ""
+    limits:
+      cpu: ""
+      memory: ""
+
+config:
+  dbName: ""
+  username: ""
+pvc:
+  spec:
+    resources:
+      requests:
+        storage: ""

@@ -10,8 +10,8 @@
 apiVersion: v1
 kind: Secret
 metadata:
-  name: app-secrets
-  namespace: application
+  name: {{ .Values.name }}-secrets
+  namespace: {{ .Values.namespace }}
 data:
   username: cm9vdA==
   password: cm9vdA==
@@ -20,22 +20,22 @@ data:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: java-app-deployment
-  namespace: application
+  name: {{ .Values.name }}-deployment
+  namespace: {{ .Values.namespace }}
 spec:
   selector:
     matchLabels:
-      app: java-app
+      app: {{ .Values.name }}
   strategy:
     type: RollingUpdate
     rollingUpdate:
       maxUnavailable: 25%
       maxSurge: 25%
-  replicas: 2
+  replicas: {{ .Values.replicas }}
   template:
     metadata:
       labels:
-        app: java-app
+        app: {{ .Values.name }}
     spec:
       hostPID: false
       hostIPC: false
@@ -44,20 +44,20 @@ spec:
         runAsNonRoot: true
         runAsUser: 1001
         fsGroup: 1001
-      serviceAccountName: application-ns-sa
+      serviceAccountName: {{ .Values.namespace }}-ns-sa
       containers:
-      - name: java-app
-        image: swarnava28/java-app:latest
+      - name: {{ .Values.image.name }}
+        image: {{ .Values.image.repository }}/{{ .Values.image.name }}:{{ .Values.image.tag }}
         imagePullPolicy: Always
         ports:
-        - containerPort: 8080
+        - containerPort: {{ .Values.image.containerPort }}
         resources:
           limits:
-            cpu: 1
-            memory: 500Mi
+            cpu: {{ .Values.image.resources.limits.cpu }}
+            memory: {{ .Values.image.resources.limits.memory }}
           requests:
-            cpu: 800m
-            memory: 100Mi
+            cpu: {{ .Values.image.resources.requests.cpu }}
+            memory: {{ .Values.image.resources.requests.memory }}
         securityContext:
           allowPrivilegeEscalation: false
           runAsNonRoot: true
@@ -68,14 +68,14 @@ spec:
         livenessProbe:
           httpGet:
             path: /actuator/health
-            port: 8080
+            port: {{ .Values.image.containerPort }}
           initialDelaySeconds: 5
           periodSeconds: 10
           failureThreshold: 3
         readinessProbe:
           httpGet:
             path: /actuator/health
-            port: 8080
+            port: {{ .Values.image.containerPort }}
           initialDelaySeconds: 10
           periodSeconds: 15
           failureThreshold: 3
@@ -83,23 +83,23 @@ spec:
         - name: SPRING_DATASOURCE_URL
           valueFrom:
             configMapKeyRef:
-              name: app-config
+              name: {{ .Values.name }}-config
               key: host
 
         - name: DB_NAME
           valueFrom:
             configMapKeyRef:
-              name: app-config
+              name: {{ .Values.name }}-config
               key: dbName
 
         - name: DB_USERNAME
           valueFrom:
             secretKeyRef:
-              name: app-secrets
+              name: {{ .Values.name }}-secrets
               key: username
 
         - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: app-secrets
+              name: {{ .Values.name }}-secrets
               key: password

@@ -1,16 +1,17 @@
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: mysql
-  namespace: database
+  name: {{ .Values.name }}
+  namespace: {{ .Values.namespace }}
   labels:
-    app: mysql
+    app: {{ .Values.name }}
     tier: database
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicas }}
   selector:
     matchLabels:
-      app: mysql
+      app: {{ .Values.name }}
       tier: database
   updateStrategy:
     type: RollingUpdate
@@ -18,55 +19,55 @@ spec:
   template:
     metadata:
       labels:
-        app: mysql
+        app: {{ .Values.name }}
         tier: database
     spec:
       hostPID: false
       hostIPC: false
       hostNetwork: false
-      serviceAccountName: database-ns-sa
+      serviceAccountName: {{ .Values.namespace }}-ns-sa
       securityContext:
         runAsUser: 1001
         runAsGroup: 1001
         fsGroup: 1001
       containers:
-      - image: mysql:5.7
+      - image: {{ .Values.image.name }}:{{ .Values.image.tag }}
         args:
         - "--ignore-db-dir=lost+found"
         - "--default-authentication-plugin=mysql_native_password"
-        name: mysql
+        name: {{ .Values.name }}
         env:
         - name: MYSQL_ROOT_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: mysql-secrets
+              name: {{ .Values.name }}-secrets
               key: password
         - name: MYSQL_USER
           valueFrom:
             configMapKeyRef:
-              name: db-config
+              name: {{ .Values.name }}-config
               key: username
         - name: MYSQL_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: mysql-secrets
+              name: {{ .Values.name }}-secrets
               key: userpassword
 
         - name: MYSQL_DATABASE
           valueFrom:
             configMapKeyRef:
-              name: db-config
+              name: {{ .Values.name }}-config
               key: dbName
         ports:
-        - containerPort: 3306
-          name: mysql
+        - containerPort: {{ .Values.image.containerPort }}
+          name: {{ .Values.name }}
         resources:
           limits:
-            cpu: 500m
-            memory: 1Gi
+            cpu: {{ .Values.image.resources.limits.cpu }}
+            memory: {{ .Values.image.resources.limits.memory }}
           requests:
-            cpu: 200m
-            memory: 800Mi
+            cpu: {{ .Values.image.resources.requests.cpu }}
+            memory: {{ .Values.image.resources.requests.memory }}
         readinessProbe:
           exec:
             command:
@@ -86,7 +87,7 @@ spec:
           periodSeconds: 10
           failureThreshold: 3
         volumeMounts:
-        - name: mysql-persistent-storage
+        - name: {{ .Values.name }}-persistent-storage
           mountPath: /var/lib/mysql
         securityContext:
           allowPrivilegeEscalation: false
@@ -96,16 +97,17 @@ spec:
           seccompProfile:
             type: "RuntimeDefault"
       volumes:
-      - name: mysql-persistent-storage
+      - name: {{ .Values.name }}-persistent-storage
         persistentVolumeClaim:
-          claimName: mysql-pv-claim
+          claimName: {{ .Values.name }}-pv-claim
 ---
 
 apiVersion: v1
 kind: Secret
 metadata:
-  name: mysql-secrets
+  name: {{ .Values.name }}-secrets
   namespace: database
 data:
   password: cm9vdA==
   userpassword: cm9vdA==
+---

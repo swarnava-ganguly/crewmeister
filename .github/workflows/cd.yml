@@ -1,0 +1,45 @@
+name: CD pipleine
+on:
+  push:
+    branches:
+      - main
+
+env:
+  DB_DATABASE: crewmeister
+jobs:
+    Deploy:
+      needs: Build-and-Push
+      name: Deploy to Kubernetes
+      runs-on: ubuntu-latest
+      steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Create kubeconfig
+        run: |
+          mkdir ${HOME}/.kube
+          echo ${{ secrets.KUBE_CONFIG }} | base64 --decode > ${HOME}/.kube/config
+          cat ${HOME}/.kube/config
+    #   - name: Create Namespace
+    #     run: |
+    #       kubectl get namespace | grep -q "application" || kubectl create namespace application
+    #       kubectl get namespace | grep -q "database" || kubectl create namespace database
+    #       kubectl get namespace
+    #   - name: Configure Secrets
+    #     run: |
+    #       kubectl delete secret myregistrykey -n application --ignore-not-found
+    #       kubectl create secret docker-registry myregistrykey --docker-username=${{ secrets.DOCKER_USERNAME }} --docker-password=${{ secrets.DOCKERHUB_TOKEN }} --docker-email=${{ secrets.DOCKER_EMAIL }} -n application
+    #       echo ${{ secrets.APPLICATION_SECRETS_BASE64 }} | base64 --decode | kubectl apply -f -
+    #       kubectl get secret -n application
+    #       echo ${{ secrets.DATABASE_SECRETS_BASE64 }} | base64 --decode | kubectl apply -f -
+    #       kubectl get secret -n database
+    #   - name: Install
+    #     run: |
+    #       ls
+    #       # kubectl apply -f kubernetes/mysql --dry-run=client
+    #       # kubectl apply -f kubernetes/app --dry-run=client
+    #       kubectl apply -f kubernetes/mysql 
+    #       kubectl apply -f kubernetes/app
+
+          
+    #   - name: Use context
+    #     run: kubectl get nodes

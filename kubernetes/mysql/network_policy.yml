@@ -1,2 +1,19 @@
 ---
 
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-app-namespace
+  namespace: database # Apply this policy to the 'database' namespace
+spec:
+  podSelector: {} # Apply the policy to all pods in the 'database' namespace
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: application # Allow traffic only from the 'application' namespace
+    ports:
+    - protocol: TCP
+      port: 3306
