@@ -8,7 +8,6 @@ env:
   DB_DATABASE: crewmeister
 jobs:
     Deploy:
-      needs: Build-and-Push
       name: Deploy to Kubernetes
       runs-on: ubuntu-latest
       steps:
