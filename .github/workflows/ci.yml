@@ -33,7 +33,5 @@ jobs:
             context: .
             push: true
             tags: swarnava28/java-app:${GITHUB_SHA::6}
-    Deploy:
-      needs: Build-and-Push
-      name: Deploy to Kubernetes
-      uses: ./.github/workflows/cd.yml
+    # Deploy:
+    #   uses: ./.github/workflows/cd.yml
