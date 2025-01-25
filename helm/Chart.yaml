@@ -5,10 +5,17 @@ version: 1.0.0
 type: application
 appVersion: "1.0"
 dependencies:
+# - name: mysql
+#   version: "1.0.0"
+#   repository: file://C:\Users\user\OneDrive\Desktop\project\crewmeister\helm\charts\mysql
+
+# - name: javaApplication
+#   version: "1.0.0"
+#   repository: file://C:\Users\user\OneDrive\Desktop\project\crewmeister\helm\charts\application
 - name: mysql
   version: "1.0.0"
-  repository: file://C:\Users\user\OneDrive\Desktop\project\crewmeister\helm\charts\mysql
+  repository: file:///home/runner/work/crewmeister/crewmeister/helm/charts/mysql
 
 - name: javaApplication
   version: "1.0.0"
-  repository: file://C:\Users\user\OneDrive\Desktop\project\crewmeister\helm\charts\application
+  repository: file:///home/runner/work/crewmeister/crewmeister/helm/charts/application
