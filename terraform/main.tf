@@ -1,11 +1,11 @@
 
 
 terraform {
-  # backend "s3" {
-  #   bucket = "terraformstatecrew"
-  #   key    = "crew"
-  #   region = "us-east-1"
-  # }
+  backend "s3" {
+    bucket = "terraformstatecrew"
+    key    = "crew"
+    region = "us-east-1"
+  }
   required_providers {
     aws = {
       source = "hashicorp/aws"
@@ -16,7 +16,7 @@ terraform {
 }
 
 
-# provider "aws" {
-#     alias = "aws"
-#     region = "us-east-1"
-# }
+provider "aws" {
+    alias = "aws"
+    region = "us-east-1"
+}
