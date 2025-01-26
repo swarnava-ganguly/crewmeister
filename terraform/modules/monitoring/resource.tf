@@ -8,7 +8,7 @@ resource "kubernetes_namespace" "monitoring" {
 resource "helm_release" "kube-prometheus" {
   name       = "crewmonitoring"
   namespace  = "${var.monitoring_namespace}"
-  version    = "0.2.3"
+  version    = "36.2.0"
   repository = "https://prometheus-community.github.io/helm-charts"
   chart      = "kube-prometheus-stack"
 }
