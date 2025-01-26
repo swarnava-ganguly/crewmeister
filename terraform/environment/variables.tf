@@ -6,7 +6,7 @@ variable image_tag {
 
 variable docker_username {
   type        = string
-  default     = ""
+  default     = "swarnava28"
   description = "description"
 }
 
