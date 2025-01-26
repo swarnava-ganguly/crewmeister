@@ -102,11 +102,11 @@ spec:
           claimName: {{ .Values.name }}-pv-claim
 ---
 
-apiVersion: v1
-kind: Secret
-metadata:
-  name: mysql-secrets
-  namespace: database
-data:
-  password: cm9vdA==
-  userpassword: cm9vdA==
+# apiVersion: v1
+# kind: Secret
+# metadata:
+#   name: mysql-secrets
+#   namespace: database
+# data:
+#   password: cm9vdA==
+#   userpassword: cm9vdA==
