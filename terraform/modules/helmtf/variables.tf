@@ -37,5 +37,5 @@ variable helm_chart_directory {
 variable helm_chart_values {
   type        = string
   default     = ""
-  description = "description"
+  description = "descriptions"
 }
