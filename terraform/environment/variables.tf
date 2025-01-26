@@ -51,3 +51,9 @@ variable helm_chart_values {
   default     = "/home/runner/work/crewmeister/crewmeister/helm/values.yaml" #/home/runner/work/crewmeister/crewmeister/helm/values.yaml
   description = "helm values file location" 
 }
+
+variable monitoring_namespace {
+  type        = string
+  default     = "monitoring"
+  description = "Monitoring Namespace to host Prometheus Grafana and Alert Manager"
+}

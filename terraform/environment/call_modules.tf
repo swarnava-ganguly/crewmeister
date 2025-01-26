@@ -9,3 +9,10 @@ module "helmtf" {
     helm_chart_directory = var.helm_chart_directory
     helm_chart_values = var.helm_chart_values
 }
+
+module "monitoring" {
+    source = "../modules/monitoring"
+    config_path = var.config_path
+    config_context = var.config_context
+    monitoring_namespace = var.monitoring_namespace
+}
