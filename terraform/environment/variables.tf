@@ -1,13 +1,19 @@
+variable aws_region {
+  type        = string
+  default     = "us-east-1"
+  description = "AWS Region"
+}
+
 variable image_tag {
   type        = string
   default     = "76487789b97848f1b92a27100282e32de02f2978"
-  description = "application image tag"
+  description = "Application image tag"
 }
 
 variable docker_username {
   type        = string
   default     = "swarnava28"
-  description = "description"
+  description = "Docker Hub Username"
 }
 
 variable config_path {
