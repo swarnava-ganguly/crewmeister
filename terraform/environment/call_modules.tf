@@ -1,6 +1,7 @@
 module "helmtf" {
     source = "../modules/helmtf"
     image_tag = var.image_tag
+    docker_username = var.docker_username
     config_path = var.config_path
     config_context = var.config_context
     helm_release_name = var.helm_release_name

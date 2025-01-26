@@ -4,6 +4,12 @@ variable image_tag {
   description = "application image tag"
 }
 
+variable docker_username {
+  type        = string
+  default     = ""
+  description = "description"
+}
+
 variable config_path {
   type        = string
   default     = "/home/runner/.kube/config" #/home/runner/.kube/config

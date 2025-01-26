@@ -1,7 +1,13 @@
 variable image_tag {
   type        = string
   default     = ""
-  description = "application image tag"
+  description = "description"
+}
+
+variable docker_username {
+  type        = string
+  default     = ""
+  description = "description"
 }
 
 variable config_path {

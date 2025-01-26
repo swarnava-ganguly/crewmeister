@@ -17,5 +17,9 @@ resource "helm_release" "crewmeister_application" {
     name  = "javaApplication.image.tag"
     value = "${var.image_tag}"
   }
+  set {
+    name  = "javaApplication.image.repository"
+    value = "${var.docker_username}"
+  }
 }
 
