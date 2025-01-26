@@ -93,9 +93,9 @@ jobs:
           cd terraform/environment
           terraform init -backend-config="bucket=${{env.STATE_FILE_BUCKET_NAME}}" -backend-config="key=${{env.STATE_FILE_KEY}}" -backend-config="region=${{env.STATE_FILE_BUCKET_REGION}}" -reconfigure
           terraform validate
-          terraform refresh -var image_tag="${{ github.sha }}" -var docker_username="${{secrets.DOCKER_USERNAME}}"
-          terraform plan -var image_tag="${{ github.sha }}" -var docker_username="${{secrets.DOCKER_USERNAME}}"
-          terraform apply -var image_tag="${{ github.sha }}" -var docker_username="${{secrets.DOCKER_USERNAME}}" --auto-approve
+          terraform refresh -var image_tag="${{ github.sha }}" -var docker_username="${{secrets.DOCKER_USERNAME}}" -var aws_region="${{env.STATE_FILE_BUCKET_REGION}}"
+          terraform plan -var image_tag="${{ github.sha }}" -var docker_username="${{secrets.DOCKER_USERNAME}}" -var aws_region="${{env.STATE_FILE_BUCKET_REGION}}"
+          terraform apply -var image_tag="${{ github.sha }}" -var docker_username="${{secrets.DOCKER_USERNAME}}" -var aws_region="${{env.STATE_FILE_BUCKET_REGION}}" --auto-approve
 
       - name: Use context
         run: kubectl get nodes
