@@ -89,9 +89,9 @@ jobs:
           export AWS_SECRET_ACCESS_KEY="${{ secrets.AWS_SECRET_KEY }}"
           cd terraform/environment
           terraform init
-          terraform refresh -var image_tag="${{ github.sha }}" -var docker_username="${{ secrets.DOCKER_USERNAME }}"
-          terraform plan -var image_tag="${{ github.sha }}" -var docker_username="${{ secrets.DOCKER_USERNAME }}"
-          terraform apply -var image_tag="${{ github.sha }}" -var docker_username="${{ secrets.DOCKER_USERNAME }}" --auto-approve
+          terraform refresh -var image_tag="${{ github.sha }}" -var docker_username="${{secrets.DOCKER_USERNAME}}"
+          terraform plan -var image_tag="${{ github.sha }}" -var docker_username="${{secrets.DOCKER_USERNAME}}"
+          terraform apply -var image_tag="${{ github.sha }}" -var docker_username="${{secrets.DOCKER_USERNAME}}" --auto-approve
 
       - name: Use context
         run: kubectl get nodes
