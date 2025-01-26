@@ -62,16 +62,16 @@ jobs:
         run: terraform --version
       - name: Create Namespace
         run: |
-          kubectl get namespace | grep -q "application" || kubectl create namespace application
-          kubectl get namespace | grep -q "database" || kubectl create namespace database
+          kubectl get namespace | grep -q "application" || kubectl create namespace application --dry-run=client -o yaml | sed  '/^metadata:/a\ \ labels: {"tire":"application"}' | kubectl apply -f - 
+          kubectl get namespace | grep -q "database" || kubectl create namespace database --dry-run=client -o yaml | sed  '/^metadata:/a\ \ labels: {"tire":"database"}' | kubectl apply -f - 
           kubectl get namespace
       - name: Configure Secrets
         run: |
           kubectl delete secret myregistrykey -n application --ignore-not-found
           kubectl create secret docker-registry myregistrykey --docker-username=${{ secrets.DOCKER_USERNAME }} --docker-password=${{ secrets.DOCKERHUB_TOKEN }} --docker-email=${{ secrets.DOCKER_EMAIL }} -n application
-          echo ${{ secrets.APPLICATION_SECRETS_BASE64 }} | base64 --decode | kubectl apply -f -
+          echo ${{ secrets.APPLICATION_SECRETS_BASE64 }} | base64 -d | kubectl apply -f -
           kubectl get secret -n application
-          echo ${{ secrets.DATABASE_SECRETS_BASE64 }} | base64 --decode | kubectl apply -f -
+          echo ${{ secrets.DATABASE_SECRETS_BASE64 }} | base64 -d | kubectl apply -f -
           kubectl get secret -n database
       # - name: Install
       #   run: |

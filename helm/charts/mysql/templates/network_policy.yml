@@ -6,7 +6,9 @@ metadata:
   name: {{ .Values.namespace }}-ntp
   namespace: {{ .Values.namespace }}
 spec:
-  podSelector: {}
+  podSelector:
+    matchLabels:
+        tier: database
   policyTypes:
   - Ingress
   ingress:
@@ -14,6 +16,7 @@ spec:
     - namespaceSelector:
         matchLabels:
           name: {{ .Values.networkPolicy.allowedNamespace }}
-    # ports:
-    # - protocol: TCP
-    #   port: {{ .Values.image.containerPort }}
+    ports:
+    - protocol: TCP
+      port: {{ .Values.image.containerPort }}
+
