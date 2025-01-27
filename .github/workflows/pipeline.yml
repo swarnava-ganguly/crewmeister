@@ -25,6 +25,7 @@ jobs:
 
       - name: Prerequisite 2 - Build project crewmeister with Maven
         run: |
+          chmod +x mvnw
           ./mvnw clean package -DskipTests 
           echo ${{ env.STATE_FILE_BUCKET_NAME }}
 
@@ -46,15 +47,7 @@ jobs:
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: 'CRITICAL'
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@0.28.0
-        with:
-          image-ref: '${{secrets.DOCKER_USERNAME}}/java-app:${{ github.sha }}'
-          format: 'table'
-          exit-code: '1'
-          ignore-unfixed: true
-          vuln-type: 'os,library'
-          severity: 'CRITICAL'
+
       - name: Push Docker Image
         uses: docker/build-push-action@v6
         with:
