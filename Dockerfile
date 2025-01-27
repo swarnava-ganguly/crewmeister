@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk-slim
+FROM openjdk:21-jdk-slim
 RUN groupadd -g 1001 appuser && useradd -r -u 1001 -g appuser appuser
 WORKDIR /application
 COPY /target/*.jar app.jar
