@@ -55,7 +55,7 @@ jobs:
 
     Contineous-Deploy:
       needs: Continuous-Integration
-      name: Contineous Deployment
+      name: Continuous Deployment
       runs-on: ubuntu-latest
       steps:
 
