@@ -10,7 +10,7 @@ env:
   STATE_FILE_KEY: "crew.tfstate"
 
 jobs:
-    Continuous integration:
+    Continuous-Integration:
       runs-on: ubuntu-latest
       steps:
       - uses: actions/checkout@v4
