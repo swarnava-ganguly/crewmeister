@@ -52,7 +52,7 @@ jobs:
             tags: ${{secrets.DOCKER_USERNAME}}/java-app:${{ github.sha }}
 
     Contineous-Deploy:
-      needs: Build-and-Push
+      needs: Continuous-Integration
       name: Deploy to Kubernetes
       runs-on: ubuntu-latest
       steps:
