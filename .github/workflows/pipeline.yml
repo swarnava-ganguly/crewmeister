@@ -55,7 +55,7 @@ jobs:
 
     Contineous-Deploy:
       needs: Continuous-Integration
-      name: Deploy to Kubernetes
+      name: Contineous Deployment
       runs-on: ubuntu-latest
       steps:
 
