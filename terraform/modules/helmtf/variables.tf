@@ -1,13 +1,49 @@
+variable registry_username {
+  type        = string
+  default     = ""
+  description = "description"
+}
+
+variable registry_password {
+  type        = string
+  default     = ""
+  description = "description"
+}
+
+variable registry_email {
+  type        = string
+  default     = ""
+  description = "description"
+}
+
+variable db_root_password {
+  type        = string
+  default     = ""
+  description = "description"
+}
+
+variable db_user_password {
+  type        = string
+  default     = ""
+  description = "description"
+}
+
 variable image_tag {
   type        = string
   default     = ""
   description = "description"
 }
 
-variable docker_username {
+variable application_namespace {
   type        = string
   default     = ""
   description = "description"
+}
+
+variable database_namespace {
+  type        = string
+  default     = "database"
+  description = "Database namespace"
 }
 
 variable config_path {

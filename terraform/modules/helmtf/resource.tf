@@ -11,10 +11,10 @@ resource "helm_release" "crewmeister_application" {
   }
   set {
     name  = "javaApplication.image.repository"
-    value = "${var.docker_username}"
+    value = "${var.registry_username}"
   }
-  # depends_on = [
-  #   kubernetes_namespace.application_namespace, kubernetes_namespace.database_namespace, kubernetes_secret.application_secret, kubernetes_secret.database_secret
-  # ]
+  depends_on = [
+    kubernetes_namespace.application_namespace, kubernetes_namespace.database_namespace, kubernetes_secret.application_secret, kubernetes_secret.database_secret, kubernetes_secret.myregistrykey_application
+  ]
 }
 

@@ -4,16 +4,52 @@ variable aws_region {
   description = "AWS Region"
 }
 
+variable registry_username {
+  type        = string
+  default     = "swarnava28"
+  description = "Docker registry username"
+}
+
+variable registry_password {
+  type        = string
+  default     = "ilovedocker"
+  description = "Docker registry password"
+}
+
+variable registry_email {
+  type        = string
+  default     = "swarnava28@gmail.com"
+  description = "Docker registry email"
+}
+
+variable db_root_password {
+  type        = string
+  default     = "root"
+  description = "DB root password"
+}
+
+variable db_user_password {
+  type        = string
+  default     = "root"
+  description = "db user password"
+}
+
 variable image_tag {
   type        = string
   default     = "76487789b97848f1b92a27100282e32de02f2978"
   description = "Application image tag"
 }
 
-variable docker_username {
+variable application_namespace {
   type        = string
-  default     = "swarnava28"
-  description = "Docker Hub Username"
+  default     = "application"
+  description = "Application Namespace"
+}
+
+variable database_namespace {
+  type        = string
+  default     = "database"
+  description = "Database namespace"
 }
 
 variable config_path {
