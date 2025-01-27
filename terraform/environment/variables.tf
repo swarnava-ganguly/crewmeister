@@ -12,7 +12,7 @@ variable registry_username {
 
 variable registry_password {
   type        = string
-  default     = "ilovedocker"
+  default     = ""
   description = "Docker registry password"
 }
 
@@ -24,19 +24,19 @@ variable registry_email {
 
 variable db_root_password {
   type        = string
-  default     = "root"
+  default     = ""
   description = "DB root password"
 }
 
 variable db_user_password {
   type        = string
-  default     = "root"
+  default     = ""
   description = "db user password"
 }
 
 variable image_tag {
   type        = string
-  default     = "76487789b97848f1b92a27100282e32de02f2978"
+  default     = "latest"
   description = "Application image tag"
 }
 

@@ -5,9 +5,9 @@ on:
       - main
 
 env:
-  STATE_FILE_BUCKET_NAME: "terraformstatecrew"
-  STATE_FILE_BUCKET_REGION: "us-east-1"
-  STATE_FILE_KEY: "crew.tfstate"
+  STATE_FILE_BUCKET_NAME: ${{ vars.STATE_FILE_BUCKET_NAME }} #"terraformstatecrew"
+  STATE_FILE_BUCKET_REGION: "${{ vars.STATE_FILE_BUCKET_REGION }}"
+  STATE_FILE_KEY: "${{ vars.STATE_FILE_KEY }}"
 
 jobs:
     Continuous-Integration:
@@ -23,96 +23,83 @@ jobs:
             distribution: 'temurin'
             cache: 'maven'
 
-      # - name: Prerequisite 2 - Build project crewmeister with Maven
-      #   run: ./mvnw clean package -DskipTests 
-
-      # - name: Login to Docker Hub
-      #   uses: docker/login-action@v3
-      #   with:
-      #     username: swarnava28
-      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      # - name: Docker build
-      #   run: docker build -t ${{secrets.DOCKER_USERNAME}}/java-app:${{ github.sha }} .
-      
-      # - name: Run Trivy vulnerability scanner
-      #   uses: aquasecurity/trivy-action@0.28.0
-      #   with:
-      #     image-ref: '${{secrets.DOCKER_USERNAME}}/java-app:${{ github.sha }}'
-      #     format: 'table'
-      #     exit-code: '1'
-      #     ignore-unfixed: true
-      #     vuln-type: 'os,library'
-      #     severity: 'CRITICAL'
-      # - name: Push Docker Image
-      #   uses: docker/build-push-action@v6
-      #   with:
-      #       context: .
-      #       push: true
-      #       tags: ${{secrets.DOCKER_USERNAME}}/java-app:${{ github.sha }}
-
-    Contineous-Deploy:
-      needs: Continuous-Integration
-      name: Deploy to Kubernetes
-      runs-on: ubuntu-latest
-      steps:
-
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Create kubeconfig
+      - name: Prerequisite 2 - Build project crewmeister with Maven
         run: |
-          echo ${HOME}
-          mkdir ${HOME}/.kube
-          echo ${{ secrets.KUBE_CONFIG }} | base64 --decode > ${HOME}/.kube/config
-          cat ${HOME}/.kube/config
+          ./mvnw clean package -DskipTests 
+          echo ${{ env.STATE_FILE_BUCKET_NAME }}
 
-      - name: Set up Helm
-        uses: azure/setup-helm@v1
-        with:
-          version: "v3.16.2"
+    #   - name: Login to Docker Hub
+    #     uses: docker/login-action@v3
+    #     with:
+    #       username: swarnava28
+    #       password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Verify Helm Installation
-        run: helm version
-
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v1
-        with:
-          terraform_version: 1.10.5
-
-      - name: Verify Terraform Installation
-        run: terraform --version
-
-      # - name: Create Namespace
-      #   run: |
-      #     kubectl get namespace | grep -q "application" || kubectl create namespace application --dry-run=client -o yaml | sed  '/^metadata:/a\ \ labels: {"tire":"application"}' | kubectl apply -f - 
-      #     kubectl get namespace | grep -q "database" || kubectl create namespace database --dry-run=client -o yaml | sed  '/^metadata:/a\ \ labels: {"tire":"database"}' | kubectl apply -f - 
-      #     kubectl get namespace
-
-      # - name: Configure Secrets
-      #   run: |
-      #     kubectl delete secret myregistrykey -n application --ignore-not-found
-      #     kubectl create secret docker-registry myregistrykey --docker-username=${{ secrets.DOCKER_USERNAME }} --docker-password=${{ secrets.DOCKERHUB_TOKEN }} --docker-email=${{ secrets.DOCKER_EMAIL }} -n application
-      #     echo ${{ secrets.APPLICATION_SECRETS_BASE64 }} | base64 -d | kubectl apply -f -
-      #     kubectl get secret -n application
-      #     echo ${{ secrets.DATABASE_SECRETS_BASE64 }} | base64 -d | kubectl apply -f -
-      #     kubectl get secret -n database
-
-      - name: Terraform Init and Apply
-        run: |
-          export AWS_ACCESS_KEY_ID="${{ secrets.AWS_ACCESS_KEY }}"
-          export AWS_SECRET_ACCESS_KEY="${{ secrets.AWS_SECRET_KEY }}"
-          cd terraform/environment
-          terraform init -backend-config="bucket=${{env.STATE_FILE_BUCKET_NAME}}" -backend-config="key=${{env.STATE_FILE_KEY}}" -backend-config="region=${{env.STATE_FILE_BUCKET_REGION}}" -reconfigure
-          terraform validate
-          terraform refresh -var db_root_password="${{ secrets.DB_ROOT_PASSWORD }}" -var db_user_password="${{ secrets.DB_USER_PASSWORD }}" -var image_tag="${{ github.sha }}" -var registry_username="${{secrets.DOCKER_USERNAME}}" -var registry_password="${{secrets.DOCKERHUB_TOKEN}}" -var registry_email="${{ secrets.DOCKER_EMAIL }}" -var aws_region="${{env.STATE_FILE_BUCKET_REGION}}"
-          terraform plan -var db_root_password="${{ secrets.DB_ROOT_PASSWORD }}" -var db_user_password="${{ secrets.DB_USER_PASSWORD }}" -var image_tag="${{ github.sha }}" -var registry_username="${{secrets.DOCKER_USERNAME}}" -var registry_password="${{secrets.DOCKERHUB_TOKEN}}" -var registry_email="${{ secrets.DOCKER_EMAIL }}" -var aws_region="${{env.STATE_FILE_BUCKET_REGION}}"
-          #terraform apply -var db_root_password="${{ secrets.DB_ROOT_PASSWORD }}" -var db_user_password="${{ secrets.DB_USER_PASSWORD }}" -var image_tag="${{ github.sha }}" -var registry_username="${{secrets.DOCKER_USERNAME}}" -var registry_password="${{secrets.DOCKERHUB_TOKEN}}" -var registry_email="${{ secrets.DOCKER_EMAIL }}" -var aws_region="${{env.STATE_FILE_BUCKET_REGION}}" --auto-approve
-          terraform destroy --auto-approve
-      # - name: Terraform Init and Apply
-      #   run: |
-      #     terraform destroy --auto-approve
+    #   - name: Docker build
+    #     run: docker build -t ${{secrets.DOCKER_USERNAME}}/java-app:${{ github.sha }} .
       
-      - name: Use context
-        run: kubectl get nodes
+    #   - name: Run Trivy vulnerability scanner
+    #     uses: aquasecurity/trivy-action@0.28.0
+    #     with:
+    #       image-ref: '${{secrets.DOCKER_USERNAME}}/java-app:${{ github.sha }}'
+    #       format: 'table'
+    #       exit-code: '1'
+    #       ignore-unfixed: true
+    #       vuln-type: 'os,library'
+    #       severity: 'CRITICAL'
+    #   - name: Push Docker Image
+    #     uses: docker/build-push-action@v6
+    #     with:
+    #         context: .
+    #         push: true
+    #         tags: ${{secrets.DOCKER_USERNAME}}/java-app:${{ github.sha }}
+
+    # Contineous-Deploy:
+    #   needs: Continuous-Integration
+    #   name: Deploy to Kubernetes
+    #   runs-on: ubuntu-latest
+    #   steps:
+
+    #   - name: Checkout code
+    #     uses: actions/checkout@v2
+
+    #   - name: Create kubeconfig
+    #     run: |
+    #       echo ${HOME}
+    #       mkdir ${HOME}/.kube
+    #       echo ${{ secrets.KUBE_CONFIG }} | base64 --decode > ${HOME}/.kube/config
+    #       cat ${HOME}/.kube/config
+
+    #   - name: Set up Helm
+    #     uses: azure/setup-helm@v1
+    #     with:
+    #       version: "v3.16.2"
+
+    #   - name: Verify Helm Installation
+    #     run: helm version
+
+    #   - name: Set up Terraform
+    #     uses: hashicorp/setup-terraform@v1
+    #     with:
+    #       terraform_version: 1.10.5
+
+    #   - name: Verify Terraform Installation
+    #     run: terraform --version
+
+    #   - name: Terraform Init and Apply
+    #     run: |
+    #       export AWS_ACCESS_KEY_ID="${{ secrets.AWS_ACCESS_KEY }}"
+    #       export AWS_SECRET_ACCESS_KEY="${{ secrets.AWS_SECRET_KEY }}"
+    #       cd terraform/environment
+    #       terraform init -backend-config="bucket=${{env.STATE_FILE_BUCKET_NAME}}" -backend-config="key=${{env.STATE_FILE_KEY}}" -backend-config="region=${{env.STATE_FILE_BUCKET_REGION}}" -reconfigure
+    #       terraform validate
+    #       terraform refresh -var db_root_password="${{ secrets.DB_ROOT_PASSWORD }}" -var db_user_password="${{ secrets.DB_USER_PASSWORD }}" -var image_tag="${{ github.sha }}" -var registry_username="${{secrets.DOCKER_USERNAME}}" -var registry_password="${{secrets.DOCKERHUB_TOKEN}}" -var registry_email="${{ secrets.DOCKER_EMAIL }}" -var aws_region="${{env.STATE_FILE_BUCKET_REGION}}"
+    #       terraform plan -var db_root_password="${{ secrets.DB_ROOT_PASSWORD }}" -var db_user_password="${{ secrets.DB_USER_PASSWORD }}" -var image_tag="${{ github.sha }}" -var registry_username="${{secrets.DOCKER_USERNAME}}" -var registry_password="${{secrets.DOCKERHUB_TOKEN}}" -var registry_email="${{ secrets.DOCKER_EMAIL }}" -var aws_region="${{env.STATE_FILE_BUCKET_REGION}}"
+    #       #terraform apply -var db_root_password="${{ secrets.DB_ROOT_PASSWORD }}" -var db_user_password="${{ secrets.DB_USER_PASSWORD }}" -var image_tag="${{ github.sha }}" -var registry_username="${{secrets.DOCKER_USERNAME}}" -var registry_password="${{secrets.DOCKERHUB_TOKEN}}" -var registry_email="${{ secrets.DOCKER_EMAIL }}" -var aws_region="${{env.STATE_FILE_BUCKET_REGION}}" --auto-approve
+    #       terraform destroy --auto-approve
+
+    #   - name: List created Objects
+    #     run: |
+    #       kubectl get all -n application
+    #       kubectl get all -n database
+    #       kubectl get all -n monitoring
 
