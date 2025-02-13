@@ -10,4 +10,4 @@ spec:
     name: {{ .Values.name }}-deployment
   minReplicas: 1
   maxReplicas: {{ .Values.image.hpaConf.maxReplicas }}
-  targetCPUUtilizationPercentage: {{ .Values.image.hpaConf.targetCPUUtilizationPercentage }}
+  targetCPUUtilizationPercentage: {{ .Values.image.hpaConf.targetCPUUtilizationPercentage }} 
