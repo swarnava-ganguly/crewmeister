@@ -47,20 +47,20 @@ spec:
             drop: [ "ALL" ]
           seccompProfile:
             type: "RuntimeDefault"
-        livenessProbe:
-          httpGet:
-            path: /actuator/health
-            port: {{ .Values.image.containerPort }}
-          initialDelaySeconds: 5
-          periodSeconds: 10
-          failureThreshold: 3
-        readinessProbe:
-          httpGet:
-            path: /actuator/health
-            port: {{ .Values.image.containerPort }}
-          initialDelaySeconds: 10
-          periodSeconds: 15
-          failureThreshold: 3
+        # livenessProbe:
+        #   httpGet:
+        #     path: /actuator/health/liveness
+        #     port: {{ .Values.image.containerPort }}
+        #   initialDelaySeconds: 5
+        #   periodSeconds: 10
+        #   failureThreshold: 3
+        # readinessProbe:
+        #   httpGet:
+        #     path: /actuator/health/rereadiness
+        #     port: {{ .Values.image.containerPort }}
+        #   initialDelaySeconds: 10
+        #   periodSeconds: 15
+        #   failureThreshold: 3
         env:
         - name: SPRING_DATASOURCE_URL
           valueFrom:
