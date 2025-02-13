@@ -23,37 +23,37 @@ jobs:
             distribution: 'temurin'
             cache: 'maven'
 
-      - name: Prerequisite 2 - Build project crewmeister with Maven
-        run: |
-          chmod +x mvnw
-          ./mvnw clean package -DskipTests 
-          echo ${{ env.STATE_FILE_BUCKET_NAME }}
+      # - name: Prerequisite 2 - Build project crewmeister with Maven
+      #   run: |
+      #     chmod +x mvnw
+      #     ./mvnw clean package -DskipTests 
+      #     echo ${{ env.STATE_FILE_BUCKET_NAME }}
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: swarnava28
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      # - name: Login to Docker Hub
+      #   uses: docker/login-action@v3
+      #   with:
+      #     username: swarnava28
+      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Docker build
-        run: docker build -t ${{secrets.DOCKER_USERNAME}}/java-app:${{ github.sha }} .
+      # - name: Docker build
+      #   run: docker build -t ${{secrets.DOCKER_USERNAME}}/java-app:${{ github.sha }} .
       
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@0.28.0
-        with:
-          image-ref: '${{secrets.DOCKER_USERNAME}}/java-app:${{ github.sha }}'
-          format: 'table'
-          exit-code: '1'
-          ignore-unfixed: true
-          vuln-type: 'os,library'
-          severity: 'CRITICAL'
+      # - name: Run Trivy vulnerability scanner
+      #   uses: aquasecurity/trivy-action@0.28.0
+      #   with:
+      #     image-ref: '${{secrets.DOCKER_USERNAME}}/java-app:${{ github.sha }}'
+      #     format: 'table'
+      #     exit-code: '1'
+      #     ignore-unfixed: true
+      #     vuln-type: 'os,library'
+      #     severity: 'CRITICAL'
 
-      - name: Push Docker Image
-        uses: docker/build-push-action@v6
-        with:
-            context: .
-            push: true
-            tags: ${{secrets.DOCKER_USERNAME}}/java-app:${{ github.sha }}
+      # - name: Push Docker Image
+      #   uses: docker/build-push-action@v6
+      #   with:
+      #       context: .
+      #       push: true
+      #       tags: ${{secrets.DOCKER_USERNAME}}/java-app:${{ github.sha }}
 
     Contineous-Deploy:
       needs: Continuous-Integration
@@ -96,8 +96,8 @@ jobs:
           terraform validate
           terraform refresh -var db_root_password="${{ secrets.DB_ROOT_PASSWORD }}" -var db_user_password="${{ secrets.DB_USER_PASSWORD }}" -var image_tag="${{ github.sha }}" -var registry_username="${{secrets.DOCKER_USERNAME}}" -var registry_password="${{secrets.DOCKERHUB_TOKEN}}" -var registry_email="${{ secrets.DOCKER_EMAIL }}" -var aws_region="${{env.STATE_FILE_BUCKET_REGION}}"
           terraform plan -var db_root_password="${{ secrets.DB_ROOT_PASSWORD }}" -var db_user_password="${{ secrets.DB_USER_PASSWORD }}" -var image_tag="${{ github.sha }}" -var registry_username="${{secrets.DOCKER_USERNAME}}" -var registry_password="${{secrets.DOCKERHUB_TOKEN}}" -var registry_email="${{ secrets.DOCKER_EMAIL }}" -var aws_region="${{env.STATE_FILE_BUCKET_REGION}}"
-          terraform apply -var db_root_password="${{ secrets.DB_ROOT_PASSWORD }}" -var db_user_password="${{ secrets.DB_USER_PASSWORD }}" -var image_tag="${{ github.sha }}" -var registry_username="${{secrets.DOCKER_USERNAME}}" -var registry_password="${{secrets.DOCKERHUB_TOKEN}}" -var registry_email="${{ secrets.DOCKER_EMAIL }}" -var aws_region="${{env.STATE_FILE_BUCKET_REGION}}" --auto-approve
-          #terraform destroy --auto-approve
+          #terraform apply -var db_root_password="${{ secrets.DB_ROOT_PASSWORD }}" -var db_user_password="${{ secrets.DB_USER_PASSWORD }}" -var image_tag="${{ github.sha }}" -var registry_username="${{secrets.DOCKER_USERNAME}}" -var registry_password="${{secrets.DOCKERHUB_TOKEN}}" -var registry_email="${{ secrets.DOCKER_EMAIL }}" -var aws_region="${{env.STATE_FILE_BUCKET_REGION}}" --auto-approve
+          terraform destroy --auto-approve
 
       - name: List created Objects
         run: |
