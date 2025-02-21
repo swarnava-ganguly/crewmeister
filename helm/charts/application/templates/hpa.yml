@@ -8,6 +8,6 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: {{ .Values.name }}-deployment
-  minReplicas: 1
+  minReplicas: 2
   maxReplicas: {{ .Values.image.hpaConf.maxReplicas }}
   targetCPUUtilizationPercentage: {{ .Values.image.hpaConf.targetCPUUtilizationPercentage }} 
